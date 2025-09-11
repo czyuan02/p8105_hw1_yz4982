@@ -1,11 +1,71 @@
 ---
 title: "p8105_hw1_yz4982"
 author: "Yuanyuan Zhang"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
-#hello?
-#what's up
+Promblem 1
+------------------------------------------------------------
+Use the early_january_weather dataset from the moderndive package.
+```{r load-weather}
+# load the moderndive package
+library(moderndive)
+
+# Load the early_january_weather dataset
+data("early_january_weather")
+
+# Show the first 6 rows 
+head(early_january_weather)
+
+# Show dataset structure with variable types
+dplyr::glimpse(early_january_weather)
+
+```
+
+The variables in this dataset are:  
+`r paste(names(early_january_weather), collapse = ", ")`.  
+
+Among these, some key variables are:  
+**origin**: indicates the weather station code, with observed values: 
+`r paste(unique(early_january_weather$origin), collapse = ", ")`.  
+**month**: records the month of the observation, with unique value(s): 
+`r paste(unique(early_january_weather$month), collapse = ", ")`.  
+**day**: records the calendar day of the month, ranging from 
+`r min(early_january_weather$day)` to `r max(early_january_weather$day)`.    
+**temp**: temperature in °F, with a mean of 
+  `r round(mean(early_january_weather$temp, na.rm = TRUE), 1)`.  
+**humid**: relative humidity (0–1 scale), ranging from 
+  `r round(min(early_january_weather$humid, na.rm = TRUE), 2)` to 
+  `r round(max(early_january_weather$humid, na.rm = TRUE), 2)`.  
+**wind_speed**: average wind speed in mph, with a mean of 
+  `r round(mean(early_january_weather$wind_speed, na.rm = TRUE), 1)`.  
+**pressure**: atmospheric pressure in millibars, with a mean of 
+  `r round(mean(early_january_weather$pressure, na.rm = TRUE), 1)`.  
+**time_hour**: hourly date-time observations, ranging from 
+  `r min(early_january_weather$time_hour)` to 
+  `r max(early_january_weather$time_hour)`. 
+
+The dataset has `r nrow(early_january_weather)` rows and `r ncol(early_january_weather)` columns. 
+
+The average temperature is `r round(mean(early_january_weather$temp, na.rm = TRUE), 1)` °F.
 
 
+Scatterplot of temperature vs time
+```{r p1-plot, fig.width=8, fig.height=4}
+library(ggplot2)
 
+p1 <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Hourly Temperature in Early January",
+    x = "Time (hourly)",
+    y = "Temperature (°F)",
+    color = "Humidity"
+  ) +
+  theme_minimal()
+
+p1
+```
