@@ -57,15 +57,36 @@ Scatterplot of temperature vs time
 ```{r p1-plot, fig.width=8, fig.height=4}
 library(ggplot2)
 
+# Scatterplot: temp vs time_hour, colored by humidity
 p1 <- ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
-  geom_point(alpha = 0.7) +
+  geom_point(alpha = 0.6) +
   labs(
     title = "Hourly Temperature in Early January",
     x = "Time (hourly)",
     y = "Temperature (°F)",
     color = "Humidity"
   ) +
-  theme_minimal()
+  theme(
+  # X-axis label font size, rotation angle
+  axis.text.x = element_text(size = 12, angle = 45, hjust = 1, color = "midnightblue"),
+  # Y-axis label color
+  axis.text.y = element_text(size = 12, color ='midnightblue')
+)
 
 p1
 ```
+
+The data show strong daily cycles: temperatures rise during the day and fall at night.
+The Clear upward trend in temperatures across the two weeks of January
+
+There is some day-to-day variation early January starts cooler in the 20–30 °F range, while later days show warmer averages 40–50 °F range.
+
+Points with higher humidity with darker blue colors cluster at lower temperatures, suggesting that cooler periods tend to be more humid. As temperature goes up, humidity tends to go down.
+
+```{r save-p1, include=FALSE}
+# Save the plot to HW1 folder
+ggsave(" temp vs time.png", plot = p1, width = 8, height = 4.5, dpi = 300)
+```
+
+Promblem 2
+------------------------------------------------------------
