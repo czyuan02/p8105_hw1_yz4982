@@ -84,7 +84,7 @@ Points with higher humidity with darker blue colors cluster at lower temperature
 
 ```{r save-p1, include=FALSE}
 # Save the plot to HW1 folder
-ggsave(" temp vs time.png", plot = p1, width = 8, height = 4.5, dpi = 300)
+ggsave("Temperature vs time hour.png", plot = p1, width = 8, height = 4.5, dpi = 300)
 ```
 
 Promblem 2
