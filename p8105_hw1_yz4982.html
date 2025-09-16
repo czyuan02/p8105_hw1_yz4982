@@ -1486,8 +1486,8 @@ border-radius: 0px;
 
 <div id="promblem-1" class="section level2">
 <h2>Promblem 1</h2>
-<p>Use the early_january_weather dataset from the moderndive
-package.</p>
+<div id="early-january-weather-datase" class="section level3">
+<h3>Early january weather datase</h3>
 <pre class="r"><code># load the moderndive package
 library(moderndive)
 
@@ -1547,7 +1547,9 @@ mean of 1022.5.<br />
 2013-01-01 01:00:00 to 2013-01-15 23:00:00.</p>
 <p>The dataset has 358 rows and 15 columns.</p>
 <p>The average temperature is 39.6 °F.</p>
-<p>Scatterplot of temperature vs time</p>
+</div>
+<div id="scatterplot-of-temperature-vs-time" class="section level3">
+<h3>Scatterplot of temperature vs time</h3>
 <pre class="r"><code>library(ggplot2)
 
 # Scatterplot: temp vs time_hour, colored by humidity
@@ -1578,8 +1580,94 @@ range.</p>
 temperatures, suggesting that cooler periods tend to be more humid. As
 temperature goes up, humidity tends to go down.</p>
 </div>
+</div>
 <div id="promblem-2" class="section level2">
 <h2>Promblem 2</h2>
+<div id="create-a-data-frame" class="section level3">
+<h3>Create a data frame</h3>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.4     ✔ tibble    3.3.0
+## ✔ purrr     1.1.0     ✔ tidyr     1.3.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>set.seed(123)
+
+# a random sample of size 10 from a standard Normal distribution
+x &lt;- rnorm(10)
+
+# a logical vector indicating whether elements of the sample &gt; 0
+logical_vector &lt;- x &gt; 0
+
+# a character vector of length 10
+chars &lt;- sample(letters, 10)
+
+# a factor vector of length 10, with 3 different factor “levels&quot;
+factor_vector &lt;- factor(sample(c(&quot;sad&quot;,&quot;peaceful&quot;,&quot;happy&quot;), 10, replace = TRUE))
+
+# data frame
+
+df &lt;- tibble(x, logical_vector, chars, factor_vector )
+df</code></pre>
+<pre><code>## # A tibble: 10 × 4
+##          x logical_vector chars factor_vector
+##      &lt;dbl&gt; &lt;lgl&gt;          &lt;chr&gt; &lt;fct&gt;        
+##  1 -0.560  FALSE          y     sad          
+##  2 -0.230  FALSE          z     happy        
+##  3  1.56   TRUE           i     happy        
+##  4  0.0705 TRUE           c     sad          
+##  5  0.129  TRUE           h     happy        
+##  6  1.72   TRUE           g     peaceful     
+##  7  0.461  TRUE           j     sad          
+##  8 -1.27   FALSE          x     happy        
+##  9 -0.687  FALSE          d     sad          
+## 10 -0.446  FALSE          n     sad</code></pre>
+<pre class="r"><code>mean(df %&gt;% pull(x))       # number exist</code></pre>
+<pre><code>## [1] 0.07462564</code></pre>
+<pre class="r"><code>mean(df %&gt;% pull(logical_vector))  # number exist</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>mean(df %&gt;% pull(chars))   # NA (Warning message)</code></pre>
+<pre><code>## Warning in mean.default(df %&gt;% pull(chars)): argument is not numeric or
+## logical: returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(df %&gt;% pull(factor_vector))     # NA (Warning message)</code></pre>
+<pre><code>## Warning in mean.default(df %&gt;% pull(factor_vector)): argument is not numeric or
+## logical: returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>The numeric (x) can be mean() directly.</p>
+<p>The logical is automatically treated as 0/1 in numeric operations:
+TRUE = 1, FALSE = 0, so mean(is_pos) is equal to the real number.</p>
+<p>The character and factor columns cannot be averaged directly mean()
+requires a numeric or logical vector, or it will report an error or
+return NA with a warning.</p>
+</div>
+<div id="convert-variables-from-one-type-to-another" class="section level3">
+<h3>Convert variables from one type to another</h3>
+<pre class="r"><code># logical -&gt; numeric：TRUE -&gt; 1, FALSE -&gt; 0 [ 0 0 1 1 1 1 1 0 0 0]
+as.numeric(df$logical_vector)</code></pre>
+<pre><code>##  [1] 0 0 1 1 1 1 1 0 0 0</code></pre>
+<pre class="r"><code># char -&gt; numeric：Warning message [NAs introduced by coercion]
+as.numeric(df$chars)</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
+<pre class="r"><code># factor vector -&gt; numeric: [3 1 1 3 1 2 3 1 3 3]
+as.numeric(df$factor_vector)</code></pre>
+<pre><code>##  [1] 3 1 1 3 1 2 3 1 3 3</code></pre>
+<p>When logical values are converted to numbers, true becomes 1 and
+false becomes 0. Thus, the mean value gives the ratio of the three. When
+characters are converted, r cannot interpret letters as numbers, so it
+returns NA with a warning. when factors are converted, r returns
+internal integer codes based on their order rather than on the level of
+the label, and these numbers are usually not interpreted in a meaningful
+way.</p>
+<p>The mean works for numeric and logical variables because they can be
+represented as numbers, but it fails for characters and factors because
+their values do not have inherent numeric meaning.</p>
+</div>
 </div>
 
 
